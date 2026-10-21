@@ -1,0 +1,31 @@
+#include <stdio.h>
+
+int main() {
+    int arr[100], n, i, temp;
+    int *p, *q;
+
+    printf("Enter number of elements: ");
+    scanf("%d", &n);
+
+    printf("Enter %d elements: ", n);
+    for (i = 0; i < n; i++)
+        scanf("%d", &arr[i]);
+
+    p = arr;           // points to first element
+    q = arr + n - 1;   // points to last element
+
+    while (p < q) {
+        temp = *p;
+        *p = *q;
+        *q = temp;
+        p++;
+        q--;
+    }
+
+    printf("Array in reverse order: ");
+    for (i = 0; i < n; i++)
+        printf("%d ", arr[i]);
+    printf("\n");
+
+    return 0;
+}
