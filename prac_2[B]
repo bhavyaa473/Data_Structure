@@ -1,0 +1,29 @@
+//Demonstrate the concept of Call by value and Call by Reference.
+
+#include <stdio.h>
+
+// Call by value - original value not changed
+void callByValue(int x) {
+    x = x + 10;
+    printf("Inside callByValue: x = %d\n", x);
+}
+
+// Call by reference - original value changed
+void callByReference(int *x) {
+    *x = *x + 10;
+    printf("Inside callByReference: *x = %d\n", *x);
+}
+
+int main() {
+    int a = 5, b = 5;
+
+    printf("Before callByValue: a = %d\n", a);
+    callByValue(a);
+    printf("After callByValue: a = %d\n\n", a);
+
+    printf("Before callByReference: b = %d\n", b);
+    callByReference(&b);
+    printf("After callByReference: b = %d\n", b);
+
+    return 0;
+}
