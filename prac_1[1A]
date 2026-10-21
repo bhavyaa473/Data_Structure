@@ -1,0 +1,87 @@
+#include <stdio.h>
+
+int arr[100];
+int n = 0; 
+
+// Insert element at given position
+void insert(int pos, int item) {
+    int i;
+    if (pos < 1 || pos > n + 1) {
+        printf("Invalid position\n");
+        return;
+    }
+    for (i = n; i >= pos; i--)
+        arr[i] = arr[i - 1];
+    arr[pos - 1] = item;
+    n++;
+}
+
+// Delete element at given position
+void delete(int pos) {
+    int i;
+    if (pos < 1 || pos > n) {
+        printf("Invalid position\n");
+        return;
+    }
+    for (i = pos - 1; i < n - 1; i++)
+        arr[i] = arr[i + 1];
+    n--;
+}
+
+// Traverse the array
+void traverse() {
+    int i;
+    if (n == 0) {
+        printf("Array is empty\n");
+        return;
+    }
+    printf("Array elements: ");
+    for (i = 0; i < n; i++)
+        printf("%d ", arr[i]);
+    printf("\n");
+}
+
+// Search an element
+void search(int item) {
+    int i;
+    for (i = 0; i < n; i++) {
+        if (arr[i] == item) {
+            printf("Element %d found at position %d\n", item, i + 1);
+            return;
+        }
+    }
+    printf("Element %d not found\n", item);
+}
+
+int main() {
+    int choice, pos, item;
+
+    while (1) {
+        printf("\n1.Insert 2.Delete 3.Traverse 4.Search 5.Exit\n");
+        printf("Enter choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                printf("Enter position and item: ");
+                scanf("%d %d", &pos, &item);
+                insert(pos, item);
+                break;
+            case 2:
+                printf("Enter position to delete: ");
+                scanf("%d", &pos);
+                delete(pos);
+                break;
+            case 3:
+                traverse();
+                break;
+            case 4:
+                printf("Enter item to search: ");
+                scanf("%d", &item);
+                search(item);
+                break;
+            case 5:
+                return 0;
+        }
+    }
+}
