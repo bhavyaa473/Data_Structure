@@ -1,0 +1,41 @@
+// Write a program to evaluate a postfix expression.
+
+#include <stdio.h>
+#include <ctype.h>
+
+int stack[100];
+int top = -1;
+
+void push(int x) { stack[++top] = x; }
+int pop() { return stack[top--]; }
+
+int main() {
+    char postfix[100];
+    int i = 0, a, b, result;
+
+    printf("Enter postfix expression: ");
+    scanf("%s", postfix);
+
+    while (postfix[i] != '\0') {
+        char c = postfix[i];
+
+        if (isdigit(c)) {
+            push(c - '0');
+        } else {
+            b = pop();
+            a = pop();
+            switch (c) {
+                case '+': push(a + b); break;
+                case '-': push(a - b); break;
+                case '*': push(a * b); break;
+                case '/': push(a / b); break;
+            }
+        }
+        i++;
+    }
+
+    result = pop();
+    printf("Result = %d\n", result);
+
+    return 0;
+}
