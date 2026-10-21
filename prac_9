@@ -1,0 +1,72 @@
+// Develop a program to implement and demonstrate DFS and BFS graph traversal techniques.
+
+#include <stdio.h>
+
+int adj[10][10];
+int visited[10];
+int n;
+
+void dfs(int v) {
+    int i;
+    printf("%d ", v);
+    visited[v] = 1;
+
+    for (i = 0; i < n; i++) {
+        if (adj[v][i] == 1 && visited[i] == 0)
+            dfs(i);
+    }
+}
+
+void bfs(int start) {
+    int queue[10], front = 0, rear = 0, i;
+    int vis[10] = {0};
+
+    queue[rear++] = start;
+    vis[start] = 1;
+
+    while (front < rear) {
+        int v = queue[front++];
+        printf("%d ", v);
+
+        for (i = 0; i < n; i++) {
+            if (adj[v][i] == 1 && vis[i] == 0) {
+                queue[rear++] = i;
+                vis[i] = 1;
+            }
+        }
+    }
+}
+
+int main() {
+    int i, j, edges, u, v, start;
+
+    printf("Enter number of vertices: ");
+    scanf("%d", &n);
+
+    printf("Enter number of edges: ");
+    scanf("%d", &edges);
+
+    for (i = 0; i < n; i++)
+        for (j = 0; j < n; j++)
+            adj[i][j] = 0;
+
+    printf("Enter edges (u v):\n");
+    for (i = 0; i < edges; i++) {
+        scanf("%d %d", &u, &v);
+        adj[u][v] = 1;
+        adj[v][u] = 1;
+    }
+
+    printf("Enter starting vertex: ");
+    scanf("%d", &start);
+
+    printf("DFS: ");
+    dfs(start);
+    printf("\n");
+
+    printf("BFS: ");
+    bfs(start);
+    printf("\n");
+
+    return 0;
+}
