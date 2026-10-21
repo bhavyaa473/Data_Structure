@@ -1,4 +1,5 @@
 //Write a program to prints array elements in reverse orders using pointers.
+
 #include <stdio.h>
 
 int main() {
