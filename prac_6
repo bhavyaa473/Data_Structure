@@ -1,0 +1,141 @@
+// Write a program to implement a singly linked list and perform the following operations(Display all the nodes):
+// i. Insert a new node (at the beginning, at the end, after a given node)
+// ii. Delete a node (first node, last node, node after a given node)
+
+#include <stdio.h>
+#include <stdlib.h>
+
+struct node {
+    int info;
+    struct node *next;
+};
+
+struct node *first = NULL;
+
+// Insert at beginning
+void insertBegin(int item) {
+    struct node *newNode = (struct node *)malloc(sizeof(struct node));
+    newNode->info = item;
+    newNode->next = first;
+    first = newNode;
+}
+
+// Insert at end
+void insertEnd(int item) {
+    struct node *newNode = (struct node *)malloc(sizeof(struct node));
+    struct node *temp = first;
+    newNode->info = item;
+    newNode->next = NULL;
+
+    if (first == NULL) {
+        first = newNode;
+        return;
+    }
+    while (temp->next != NULL)
+        temp = temp->next;
+    temp->next = newNode;
+}
+
+// Insert after a given node value
+void insertAfter(int key, int item) {
+    struct node *temp = first;
+    while (temp != NULL && temp->info != key)
+        temp = temp->next;
+
+    if (temp == NULL) {
+        printf("Node %d not found\n", key);
+        return;
+    }
+
+    struct node *newNode = (struct node *)malloc(sizeof(struct node));
+    newNode->info = item;
+    newNode->next = temp->next;
+    temp->next = newNode;
+}
+
+// Delete first node
+void deleteFirst() {
+    if (first == NULL) {
+        printf("List is empty\n");
+        return;
+    }
+    struct node *temp = first;
+    first = first->next;
+    free(temp);
+}
+
+// Delete last node
+void deleteLast() {
+    if (first == NULL) {
+        printf("List is empty\n");
+        return;
+    }
+    if (first->next == NULL) {
+        free(first);
+        first = NULL;
+        return;
+    }
+    struct node *temp = first;
+    while (temp->next->next != NULL)
+        temp = temp->next;
+    free(temp->next);
+    temp->next = NULL;
+}
+
+// Delete node after a given node value
+void deleteAfter(int key) {
+    struct node *temp = first;
+    while (temp != NULL && temp->info != key)
+        temp = temp->next;
+
+    if (temp == NULL || temp->next == NULL) {
+        printf("Cannot delete\n");
+        return;
+    }
+    struct node *del = temp->next;
+    temp->next = del->next;
+    free(del);
+}
+
+void display() {
+    struct node *temp = first;
+    if (first == NULL) {
+        printf("List is empty\n");
+        return;
+    }
+    printf("List: ");
+    while (temp != NULL) {
+        printf("%d -> ", temp->info);
+        temp = temp->next;
+    }
+    printf("NULL\n");
+}
+
+int main() {
+    int choice, item, key;
+
+    while (1) {
+        printf("\n1.InsertBegin 2.InsertEnd 3.InsertAfter 4.DeleteFirst 5.DeleteLast 6.DeleteAfter 7.Display 8.Exit\n");
+        printf("Enter choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                printf("Enter item: "); scanf("%d", &item);
+                insertBegin(item); break;
+            case 2:
+                printf("Enter item: "); scanf("%d", &item);
+                insertEnd(item); break;
+            case 3:
+                printf("Enter key and item: "); scanf("%d %d", &key, &item);
+                insertAfter(key, item); break;
+            case 4: deleteFirst(); break;
+            case 5: deleteLast(); break;
+            case 6:
+                printf("Enter key: "); scanf("%d", &key);
+                deleteAfter(key); break;
+            case 7: display(); break;
+            case 8: return 0;
+        }
+    }
+}
