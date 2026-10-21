@@ -1,0 +1,168 @@
+// Write a program to implement a singly circular linked list and perform the following operations:
+// i. Insert a new node (at the beginning, at the end, after a given node)
+// ii. Delete a node (first node, last node, node after a given node)
+// iii. Display all the nodes
+
+#include <stdio.h>
+#include <stdlib.h>
+
+struct node {
+    int info;
+    struct node *next;
+};
+
+struct node *first = NULL;
+
+void insertBegin(int item) {
+    struct node *newNode = (struct node *)malloc(sizeof(struct node));
+    newNode->info = item;
+
+    if (first == NULL) {
+        newNode->next = newNode;
+        first = newNode;
+        return;
+    }
+
+    struct node *temp = first;
+    while (temp->next != first)
+        temp = temp->next;
+
+    newNode->next = first;
+    temp->next = newNode;
+    first = newNode;
+}
+
+void insertEnd(int item) {
+    struct node *newNode = (struct node *)malloc(sizeof(struct node));
+    newNode->info = item;
+
+    if (first == NULL) {
+        newNode->next = newNode;
+        first = newNode;
+        return;
+    }
+
+    struct node *temp = first;
+    while (temp->next != first)
+        temp = temp->next;
+
+    temp->next = newNode;
+    newNode->next = first;
+}
+
+void insertAfter(int key, int item) {
+    struct node *temp = first;
+    if (first == NULL) { printf("List empty\n"); return; }
+
+    do {
+        if (temp->info == key) {
+            struct node *newNode = (struct node *)malloc(sizeof(struct node));
+            newNode->info = item;
+            newNode->next = temp->next;
+            temp->next = newNode;
+            return;
+        }
+        temp = temp->next;
+    } while (temp != first);
+
+    printf("Node %d not found\n", key);
+}
+
+void deleteFirst() {
+    if (first == NULL) { printf("List empty\n"); return; }
+
+    if (first->next == first) {
+        free(first);
+        first = NULL;
+        return;
+    }
+
+    struct node *temp = first;
+    while (temp->next != first)
+        temp = temp->next;
+
+    struct node *del = first;
+    temp->next = first->next;
+    first = first->next;
+    free(del);
+}
+
+void deleteLast() {
+    if (first == NULL) { printf("List empty\n"); return; }
+
+    if (first->next == first) {
+        free(first);
+        first = NULL;
+        return;
+    }
+
+    struct node *temp = first;
+    while (temp->next->next != first)
+        temp = temp->next;
+
+    struct node *del = temp->next;
+    temp->next = first;
+    free(del);
+}
+
+void deleteAfter(int key) {
+    struct node *temp = first;
+    if (first == NULL) { printf("List empty\n"); return; }
+
+    do {
+        if (temp->info == key) {
+            struct node *del = temp->next;
+            if (del == first) {
+                printf("Cannot delete\n");
+                return;
+            }
+            temp->next = del->next;
+            free(del);
+            return;
+        }
+        temp = temp->next;
+    } while (temp != first);
+
+    printf("Node %d not found\n", key);
+}
+
+void display() {
+    if (first == NULL) { printf("List empty\n"); return; }
+
+    struct node *temp = first;
+    printf("List: ");
+    do {
+        printf("%d -> ", temp->info);
+        temp = temp->next;
+    } while (temp != first);
+    printf("(back to first)\n");
+}
+
+int main() {
+    int choice, item, key;
+
+    while (1) {
+        printf("\n1.InsertBegin 2.InsertEnd 3.InsertAfter 4.DeleteFirst 5.DeleteLast 6.DeleteAfter 7.Display 8.Exit\n");
+        printf("Enter choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                printf("Enter item: "); scanf("%d", &item);
+                insertBegin(item); break;
+            case 2:
+                printf("Enter item: "); scanf("%d", &item);
+                insertEnd(item); break;
+            case 3:
+                printf("Enter key and item: "); scanf("%d %d", &key, &item);
+                insertAfter(key, item); break;
+            case 4: deleteFirst(); break;
+            case 5: deleteLast(); break;
+            case 6:
+                printf("Enter key: "); scanf("%d", &key);
+                deleteAfter(key); break;
+            case 7: display(); break;
+            case 8: return 0;
+        }
+    }
+}
