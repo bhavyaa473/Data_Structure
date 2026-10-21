@@ -1,3 +1,5 @@
+// Write a program to create an array and demonstrate insertion, deletion, traversal, and search operations.
+
 #include <stdio.h>
 int arr[100];
 int n = 0; 
